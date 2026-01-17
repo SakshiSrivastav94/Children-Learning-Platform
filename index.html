@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Learning for Kids</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka+One&display=swap" rel="stylesheet"> 
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Fredoka One', cursive; 
+        }
+
+        .background {
+            background-image:url('mainbg.jpg'); 
+            background-size:900px;
+        
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 100vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative; 
+        }
+
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1; /* Place it below the overlay */
+        }
+
+        .overlay {
+            padding: 20px;
+            border-radius: 15px; 
+            text-align: center;
+            z-index: 2; 
+         
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive; 
+            color: #ff6347; 
+            margin-top: 100px;
+        }
+
+
+        .options {
+            display: flex;
+            flex-direction: column; /* Stack rows vertically */
+            align-items: center; /* Center align the rows */
+        }
+
+        .top-row, .bottom-row {
+            display: flex;
+            justify-content: space-around; 
+            width: 100%; /* Full width for rows */
+            margin-bottom: 10px; /* Space between rows */
+        }
+
+       
+        .option-button {
+            text-decoration: none;
+            color: #333;
+            background: #4ee3cf; 
+            border-radius: 10px;
+            padding: 5px; 
+            margin: 5px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background 0.3s;
+            box-shadow: 0 4px 8px rgba(167, 99, 99, 0.2); 
+        }
+
+        .option-button:hover {
+            background: #fbc02d; 
+        }
+
+        .icon {
+            width: 50px; 
+            height: 50px;
+            margin-bottom: 10px; 
+        }
+
+        .button-text {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="overlay">
+            <h1>Welcome to Fun Learning!</h1>
+            <div class="options">
+                <div class="top-row">
+                    <a href="letters.html" class="option-button">
+                        <img src="letters.png" alt="Letters Icon" class="icon">
+                        <span class="button-text">Learn Letters</span>
+                    </a>
+                    <a href="numbers.html" class="option-button">
+                        <img src="numbers.png" alt="Numbers Icon" class="icon">
+                        <span class="button-text">Learn Numbers</span>
+                    </a>
+                    <a href="colors.html" class="option-button">
+                        <img src="color.png" alt="Colors Icon" class="icon">
+                        <span class="button-text">Learn Colors</span>
+                    </a>
+                </div>
+                <div class="bottom-row">
+                    <a href="poem.html" class="option-button">
+                        <img src="poem.png" alt="Poem Icon" class="icon">
+                        <span class="button-text">Learn Poem</span>
+                    </a>
+                    <a href="game.html" class="option-button">
+                        <img src="animals.png" alt="Animals Icon" class="icon">
+                        <span class="button-text">Learn Names</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
