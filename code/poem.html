@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Children's Poem Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('background.jpg'); 
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; 
+            color: white; 
+        }
+
+        .container {
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            width: 80%;
+            margin: 20px auto; 
+            display: flex;
+            flex-direction: column; 
+        }
+
+        .poem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px; 
+        }
+
+        .poem-item {
+            background: linear-gradient(135deg, #f5a38e, #f8d57e); 
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s; 
+        }
+
+        .poem-item:hover {
+            transform: scale(1.05); 
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+        }
+
+        .poem-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .poem-item p {
+            font-size: 16px;
+            margin: 10px;
+        }
+
+        .video-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        video {
+            width: 100%;
+            height: auto;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50; 
+            color: white; 
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" id="backButton">Back</button>
+
+    <div class="container">
+        <h1 id="mainTitle">Children's Poem Video</h1>
+        
+        <div id="videoContainer" class="video-container">
+            <video id="poemVideo" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div id="mainContent">
+            <div class="poem-grid">
+                <div class="poem-item" data-video="abiii.mp4">
+                    <img src="twinkle.jpg" alt="Poem 1">
+                    <p>Poem 1: TWINKLE TWINKLE</p>
+                </div>
+                <div class="poem-item" data-video="abiii2.mp4">
+                    <img src="bus.jpg" alt="Poem 2">
+                    <p>Poem 2: BUS BUS</p>
+                </div>
+                <div class="poem-item" data-video="abiii3.mp4">
+                    <img src="sheep.jpg" alt="Poem 3">
+                    <p>Poem 3: BAA-BAA BLACK SHEEP</p>
+                </div>
+            </div>
+        </div>
+        <script>
+            const poemItems = document.querySelectorAll('.poem-item');
+            const videoContainer = document.getElementById('videoContainer');
+            const backButton = document.getElementById('backButton');
+            const poemVideo = document.getElementById('poemVideo');
+            const mainContent = document.getElementById('mainContent');
+
+            let isVideoOpened = false;
+
+            poemItems.forEach(poemItem => {
+                poemItem.addEventListener('click', () => {
+                    const videoSrc = poemItem.getAttribute('data-video');
+                    poemVideo.src = videoSrc;
+                    videoContainer.style.display = 'block';
+                    mainContent.style.display = 'none';
+                    isVideoOpened = true;
+                });
+            });
+
+            backButton.addEventListener('click', () => {
+                if (isVideoOpened) {
+                    // Redirect to sss.html after a video is opened
+                    window.location.href = 'sss.html';
+                } else {
+                    // Redirect to index.html if no video is opened
+                    window.location.href = 'index.html';
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('background.jpg'); 
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white; 
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.986);
+            color: white;
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            z-index: 1000; 
+            flex-direction: column; 
+        }
+
+        .overlay-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .overlay img {
+            width: 300px; 
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .nav-btn {
+            background: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 0 10px; 
+            font-size: 1.2em; 
+        }
+
+        .close-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 20px; 
+            right: 20px; 
+            font-size: 1.2em; 
+        }
+
+        .voice-btn {
+            background: rgb(241, 145, 226);
+            color: rgb(67, 51, 51);
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.2em; 
+        }
+        #show-number-btn{
+            padding: 0 2rem;
+            height: 85px;
+            background: rgb(124, 124, 206);
+            color: black;
+            border-radius: 28px 28px 28px 0;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #show-number-btn:hover{
+            background-color: white;
+        }
+        .hidden {
+            display: none; 
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Number Display</h1>
+    <button id="show-number-btn" onclick="showNumber()">Show Number</button>
+    <div class="overlay" id="overlay">
+        <button class="close-btn" onclick="closeOverlay()">X</button> 
+        <div class="overlay-content">
+            <button class="nav-btn" onclick="previousNumber()"><</button>
+            <img id="number-image" src="" alt="Number Image">
+            <button class="nav-btn" onclick="nextNumber()">></button>
+            
+        </div>
+        <button class="voice-btn" onclick="playVoice()">Play Voice</button>
+    </div>
+
+    <!-- Audio elements for each number -->
+    <audio id="audio-1" src="1.mp3.mp3"></audio>
+    <audio id="audio-2" src="2.mp3"></audio>
+    <audio id="audio-3" src="3.mp3"></audio>
+    <audio id="audio-4" src="4.mp3"></audio>
+    <audio id="audio-5" src="5.mp3"></audio>
+    <audio id="audio-6" src="6.mp3"></audio>
+    <audio id="audio-7" src="7.mp3"></audio>
+    <audio id="audio-8" src="8.mp3"></audio>
+    <audio id="audio-9" src="9.mp3"></audio>
+
+    <script>
+        const numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        const images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.png', '7.jpg', '8.jpg', '9.jpg']; // Replace with your image file names
+        let currentIndex = -1; // Start before the first number
+
+        function showNumber() {
+            if (currentIndex === -1) {
+                currentIndex = 0; // Set to first number on first click
+            }
+            document.getElementById('number-image').src = images[currentIndex];
+            playSound(numbers[currentIndex]); // Play sound for the current number
+            document.getElementById('overlay').style.display = 'flex';
+            document.getElementById('title').classList.add('hidden');
+            document.getElementById('show-number-btn').classList.add('hidden'); 
+        }
+
+        function closeOverlay() {
+            window.location.href = 'index.html';
+        }
+
+        function nextNumber() {
+            if (currentIndex < numbers.length - 1) {
+                currentIndex++;
+                document.getElementById('number-image').src = images[currentIndex];
+                playSound(numbers[currentIndex]);
+            } else {
+                alert("You have reached the last number.");
+            }
+        }
+
+        function previousNumber() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                document.getElementById('number-image').src = images[currentIndex];
+                playSound(numbers[currentIndex]);
+            } else {
+                alert("You are at the first number.");
+            }
+        }
+
+        function playSound(number) {
+            const audio = document.getElementById(`audio-${number}`);
+            if (audio) {
+                audio.currentTime = 0; 
+                audio.play();
+            }
+        }
+
+        function playVoice() {
+            playSound(numbers[currentIndex]); 
+        }
+
+        // Optional: Automatically show the next number when the image is clicked
+        document.getElementById('number-image').addEventListener('click', function() {
+            nextNumber();
+        });
+    </script>
+</body>
+</html>
