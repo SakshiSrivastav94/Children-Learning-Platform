@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabet Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('background.jpg'); 
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgb(250, 247, 247);
+            color: white;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+            padding: 20px; 
+        }
+
+        .overlay-content {
+            display: flex;
+            align-items: center;
+        }
+
+        .overlay img {
+            width: 50%;
+            max-height: 80%;
+            object-fit: contain;
+        }
+
+        .nav-btn {
+            background: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 1.2em;
+        }
+
+        .close-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            font-size: 1.2em; 
+        }
+        #show-letter-btn{
+            padding: 0 2rem;
+            height: 85px;
+            background: rgb(124, 124, 206);
+            color: black;
+            border-radius: 28px 28px 28px 0;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #show-letter-btn:hover{
+            background-color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Alphabet Display</h1>
+    <button id="show-letter-btn" onclick="showLetter()">Show Letter</button>
+
+    <div class="overlay" id="overlay">
+        <button class="close-btn" onclick="closeOverlay()">X</button> 
+        <div class="overlay-content">
+            <button class="nav-btn" onclick="previousLetter()"><</button>
+            <img id="letter-image" src="" alt="Letter Image">
+            <button class="nav-btn" onclick="nextLetter()">></button>
+        </div>
+    </div>
+
+    <script>
+        const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        const images = ['A.jpg', 'B.jpg', 'C.jpg', 'D.jpg', 'E.jpg', 'F.jpg', 'G.jpg', 'H.jpg', 'I.jpg', 'J.jpg', 'K.jpg', 'L.jpg', 'M.jpg', 'N.jpg', 'O.jpg', 'P.jpg', 'Q.jpg', 'R.jpg', 'S.jpg', 'T.jpg', 'U.jpg', 'V.jpg', 'W.jpg', 'X.jpg', 'Y.jpg', 'Z.jpg'];
+        const letterWords = {
+            'A': 'apple',
+            'B': 'ball',
+            'C': 'car',
+            'D': 'dates',
+            'E': 'elephant',
+            'F': 'fox',
+            'G': 'goat',
+            'H': 'house',
+            'I': 'ice',
+            'J': 'jug',
+            'K': 'kite',
+            'L': 'lion',
+            'M': 'monkey',
+            'N': 'nose',
+            'O': 'octopus',
+            'P': 'panda',
+            'Q': 'queen',
+            'R': 'rat',
+            'S': 'sun',
+            'T': 'tiger',
+            'U': 'unicorn',
+            'V': 'volcano',
+            'W': 'wolf',
+            'X': 'xylophone',
+            'Y': 'yo-yo',
+            'Z': 'zebra'
+        };
+        let currentIndex = -1;
+    
+        function showLetter() {
+            if (currentIndex === -1) {
+                currentIndex = 0;
+            }
+            document.getElementById('letter-image').src = images[currentIndex];
+            playSound(letters[currentIndex]);
+            document.getElementById('overlay').style.display = 'flex';
+            document.getElementById('title').classList.add('hidden');
+            document.getElementById('show-letter-btn').classList.add('hidden');
+        }
+    
+        function closeOverlay() {
+            window.location.href = 'index.html'; 
+        }
+    
+        function nextLetter() {
+            if (currentIndex < letters.length - 1) {
+                currentIndex++;
+                document.getElementById('letter-image').src = images[currentIndex];
+                playSound(letters[currentIndex]);
+            } else {
+                alert("You have reached the last letter.");
+            }
+        }
+    
+        function previousLetter() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                document.getElementById('letter-image').src = images[currentIndex];
+                playSound(letters[currentIndex]);
+            } else {
+                alert("You are at the first letter.");
+            }
+        }
+    
+        function playSound(letter) {
+            const word = letterWords[letter]; // Get the corresponding word
+            const utterance = new SpeechSynthesisUtterance(`${letter.toLowerCase()} for ${word}`); // Create the utterance
+            utterance.lang = 'en-US'; // Set the language
+            window.speechSynthesis.speak(utterance);
+        }
+    
+        document.getElementById('letter-image').addEventListener('click', function() {
+            nextLetter();
+        });
+    </script>
+</body>
+</html>
