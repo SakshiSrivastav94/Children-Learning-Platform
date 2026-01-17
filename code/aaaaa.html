@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoon Animal Quiz Game</title>
+    <style>
+        /* Your existing CSS styles */
+    </style>
+</head>
+<body>
+
+    <h1>Cartoon Animal Quiz Game</h1>
+    <button id="back-button" onclick="location.href='index.html'">Back</button>
+    <button id="start-button" onclick="startGame()">Start Game</button>
+    <div id="quiz" style="display: none;">
+        <img id="animal-image" src="" alt="Animal Image">
+        <div id="options"></div>
+        <div id="message"></div>
+        <div id="fact"></div>
+        <button id="next-button" onclick="startGame()">Next</button>
+    </div>
+
+    <script>
+        const animals = [
+            { name: 'Dog', image: 'dog.jpg' },
+            { name: 'Cat', image: 'cat.jpg' },
+            { name: 'Elephant', image: 'elephant.jpg' },
+            { name: 'Cow', image: 'cow.jpg' },
+        ];
+
+        let score = 0;
+
+        function startGame() {
+            document.getElementById('quiz').style.display = 'block'; // Show quiz section
+            document.getElementById('start-button').style.display = 'none'; // Hide start button
+            const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+            document.getElementById('animal-image').src = randomAnimal.image;
+            document.getElementById('options').innerHTML = '';
+            document.getElementById('message').innerText = '';
+            document.getElementById('fact').innerText = ''; // Clear fact
+            document.getElementById('next-button').style.display = 'none'; // Hide Next button
+
+            const options = [randomAnimal.name];
+            while (options.length < 4) {
+                const randomOption = animals[Math.floor(Math.random() * animals.length)].name;
+                if (!options.includes(randomOption)) {
+                    options.push(randomOption);
+                }
+            }
+
+            // Shuffle options
+            options.sort(() => Math.random() - 0.5);
+
+            // Display options
+            options.forEach(option => {
+                const button = document.createElement('button');
+                button.className = 'option';
+                button.innerText = option;
+                button.onclick = () => checkAnswer(option, randomAnimal.name);
+                button.onmouseover = () => playAnimalSound(option); // Play sound on hover
+                document.getElementById('options').appendChild(button);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            const messageDiv = document.getElementById('message');
+            if (selected === correct) {
+                messageDiv.innerText = 'Correct! ';
+                score += 10; // Increase score
+                speak('Congratulations! You are correct!'); // Speak congratulatory message
+            } else {
+                messageDiv.innerText = 'Oops! Try again. ';
+                speak('Try again!'); // Speak try again message
+            }
+            document.getElementById('next-button').style.display = 'block'; // Show Next button
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; // Set language
+            window.speechSynthesis.speak(utterance); // Speak the text
+        }
+
+        function playAnimalSound(animal) {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            let oscillator = audioContext.createOscillator();
+            oscillator.type = 'sine'; // Type of sound wave
+
+            // Set frequency based on the animal
+            switch (animal) {
+                case 'Dog':
+                    oscillator.frequency.setValueAtTime(440, audioContext.currentTime); // A4
+                    break;
+                case 'Cat':
+                    oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+                    break;
+                case 'Elephant':
+                    oscillator .frequency.setValueAtTime(349.23, audioContext.currentTime); // F4
+                    break;
+                case 'Cow':
+                    oscillator.frequency.setValueAtTime(261.63, audioContext.currentTime); // C4
+                    break;
+            }
+
+            oscillator.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.5); // Play sound for 0.5 seconds
+        }
+    </script>
+</body>
+</html>
